@@ -23,7 +23,7 @@ func NewFileServerIdService(fPath string) (ServerIdService, error) {
 
 	r, err := getServerIdReader(fPath)
 	defer r.Close()
-	var sId ServerId
+	var sId uuid.UUID
 	if err == nil {
 		sId, err = getServerIdFromReader(r)
 	}
@@ -34,17 +34,14 @@ func NewFileServerIdService(fPath string) (ServerIdService, error) {
 	return nil, err
 }
 
-func getServerIdFromReader(r io.Reader) (ServerId, error) {
-	var sId ServerId
+func getServerIdFromReader(r io.Reader) (uuid.UUID, error) {
+	var sId uuid.UUID
 	decoder := json.NewDecoder(r)
 	sIdFile := &serverIdJsonFile{}
 	err := decoder.Decode(sIdFile)
 	if err == nil {
-		var id uuid.UUID
-		id, err = uuid.Parse(sIdFile.ServerIdString)
-		if err == nil {
-			sId = ServerId(id)
-		}
+		sId, err = uuid.Parse(sIdFile.ServerIdString)
+
 	}
 	return sId, err
 }

@@ -4,16 +4,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type ServerId uuid.UUID
+//type ServerId uuid.UUID
 
 type ServerIdService interface {
-	GetServerId() ServerId
+	GetServerId() uuid.UUID
 }
 
 type memServerIdService struct {
-	sId ServerId
+	sId uuid.UUID
 }
 
-func (this *memServerIdService) GetServerId() ServerId {
+func (this *memServerIdService) GetServerId() uuid.UUID {
 	return this.sId
 }
