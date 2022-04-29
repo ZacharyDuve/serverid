@@ -10,12 +10,12 @@ const (
 	sIdResourcePath string = "/serverid"
 )
 
-type JSONServerId struct {
+type jsonServerId struct {
 	ServerId string `json:"server-id"`
 }
 
 func GetHandlerFuncFromServerIdService(sIdSvc ServerIdService) (path string, handlerFunc func(w http.ResponseWriter, r *http.Request)) {
-	sIdJSON := &JSONServerId{ServerId: sIdSvc.GetServerId().String()}
+	sIdJSON := &jsonServerId{ServerId: sIdSvc.GetServerId().String()}
 	return sIdResourcePath, func(w http.ResponseWriter, r *http.Request) {
 		encoder := json.NewEncoder(w)
 		err := encoder.Encode(sIdJSON)
